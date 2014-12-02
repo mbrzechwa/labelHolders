@@ -22,9 +22,7 @@
 		
 		var stored = jQuery(this).data('labelHolders') || '';
 		var conf = jQuery.extend(defaults, options, stored);
-		var isChrome = /chrom(e|ium)/.test(navigator.userAgent.toLowerCase()) ? true : false;
-		
-		if(isChrome) {conf.input = conf.input+':not([type=date])';}
+		conf.input = conf.input+':not([type=date])';
 		
 		jQuery(this).data('labelHolders',conf);
 		
