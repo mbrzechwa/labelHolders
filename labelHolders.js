@@ -1,11 +1,26 @@
 (function($) {
 /*
 //	labelHolders.js jQuery Plugin version 1.8
-//	Created by Marek Brzechwa-White
+//	Copyright 2015 Marek Brzechwa-White
 //	Allows for proper semantic markup of labels for form inputs with the design trend of inline Labels/Placeholders for cleaner looking forms.
 //	Does not interfere with actual Placeholder text when present.
 */
-	jQuery.fn.labelHolders = function(options) {
+
+/*
+		This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+	$.fn.labelHolders = function(options) {
 		
 		var defaults = {
 			input: ':input:not(:checkbox, :radio, :button, :submit, :reset)',	// input types to apply logic to. DEFAULT all inputs except buttons, check boxes and radio buttons
@@ -21,8 +36,8 @@
 			disableDate: false								// disable labelHolders on date inputs?
 		};
 		
-		var stored = jQuery(this).data('labelHolders') || '';
-		var conf = jQuery.extend(defaults, options, stored);
+		var stored = $(this).data('labelHolders') || '';
+		var conf = $.extend(defaults, options, stored);
 		var filterDate = conf.disableDate ? ':not([type=date])' : '*';
 		
 		// Test if the Firefox Legend positioning bug is an issue
@@ -33,9 +48,9 @@
 		var legendAdjust = testForm.find('input').position().top > 0;
 		testForm.remove();
 		
-		jQuery(this).data('labelHolders',conf);
+		$(this).data('labelHolders',conf);
 		
-		setState = function(form,input,state,speedOveride) {
+		function setState(form,input,state,speedOveride) {
 			var label	= form.find('label[for='+input.attr('id')+']'),
 			lineHeight = parseInt(input.css('line-height').replace('px',''),10) || Math.floor(parseInt(input.css('font-size').replace('px','')) * 1.5,10),
 			lineHeight = lineHeight+'px',
@@ -63,7 +78,7 @@
 				label
 					.css({'position':'absolute','text-align':conf.align,'display':'block'})
 					.animate({'top':top,'left':left,'font-size':nsize,'line-height':lineHeight}, speed, function() {
-						jQuery(this)
+						$(this)
 							.addClass(conf.active_class)
 							.removeClass(conf.inactive_class);
 						input
@@ -74,7 +89,7 @@
 				label
 					.css({position:'absolute','text-align':input.css('text-align'),display:'block'})
 					.animate({'top':start.top,'left':start.left,'font-size':osize,'line-height':lineHeight}, speed, function() {
-						jQuery(this)
+						$(this)
 							.css('opacity',1)
 							.removeClass(conf.active_class)
 							.addClass(conf.inactive_class);
@@ -87,34 +102,34 @@
 			
 		}
 		
-		checkInputState = function($form,e,m) {
-			$e = $form.find('#'+jQuery(e).attr('for'));
+		 function checkInputState($form,e,m) {
+			$e = $form.find('#'+$(e).attr('for'));
 			if (!$e.is('select') && $e.is(conf.input) && $e.is(filterDate) && !$e.is(':hidden')) {
-				jQuery(e).css({'position':'absolute'});
+				$(e).css({'position':'absolute'});
 				if(!$e.is('[placeholder]') && $e.val().length == 0) {
 					if(conf.hideOnFocus) {
-						jQuery(e).css('opacity',1);
+						$(e).css('opacity',1);
 					}
 					setState($form,$e,'inactive',1);
 				}
 				else if($e.is('[placeholder]') || $e.val().length != 0) {
 					if(conf.hideOnFocus || conf.hideOnBlur) {
-						jQuery(e).css('opacity',0);
+						$(e).css('opacity',0);
 					}
 					setState($form,$e,'active',1);
 				}
 			}
 			else if($e.is(conf.input) && $e.is('select') && !$e.is(':hidden')) {
-				jQuery(e).css({'position':'absolute'});
+				$(e).css({'position':'absolute'});
 				if($e.find(':selected').val() == '' && $e.find(':selected').text() == '') {
 					if(conf.hideOnFocus) {
-						jQuery(e).css('opacity',1);
+						$(e).css('opacity',1);
 					}
 					setState($form,$e,'inactive',1);
 				}
 				else if($e.find(':selected').val() != '' || $e.find(':selected').text() != '') {
 					if(conf.hideOnFocus || conf.hideOnBlur) {
-						jQuery(e).css('opacity',0);
+						$(e).css('opacity',0);
 					}
 					setState($form,$e,'active',1);
 				}
@@ -122,38 +137,38 @@
 		}
 		
 		return this.each(function() {
-			$form = jQuery(this);
+			$form = $(this);
 			$form.find(conf.input).filter(filterDate)
 				.focus(function() {
-					if(!jQuery(this).is('[placeholder]')) {
+					if(!$(this).is('[placeholder]')) {
 						if(conf.hideOnFocus) {
-							$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:0},(conf.speed)/2);
+							$form.find('label[for='+$(this).attr('id')+']').animate({opacity:0},(conf.speed)/2);
 						} else {
-							setState($form,jQuery(this),'active');
+							setState($form,$(this),'active');
 						}
 					}
 					if (conf.hideOnBlur) {
-						$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:1},conf.speed);
+						$form.find('label[for='+$(this).attr('id')+']').animate({opacity:1},conf.speed);
 					}
 				})
 				.blur(function() {
 					if(!$(this).is('select')) {
-						if(jQuery(this).val().length == 0 && !jQuery(this).is('[placeholder]')) {
+						if($(this).val().length == 0 && !$(this).is('[placeholder]')) {
 							if(conf.hideOnFocus) {
-								$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:1},(conf.speed)/2);
+								$form.find('label[for='+$(this).attr('id')+']').animate({opacity:1},(conf.speed)/2);
 							}
-							setState($form,jQuery(this),'inactive');
-						} else if (jQuery(this).val().length != 0 && conf.hideOnBlur) {
-							$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:0},conf.speed);
+							setState($form,$(this),'inactive');
+						} else if ($(this).val().length != 0 && conf.hideOnBlur) {
+							$form.find('label[for='+$(this).attr('id')+']').animate({opacity:0},conf.speed);
 						}
 					} else {
-						if(jQuery(this).find(':selected').val() == '' && jQuery(this).find(':selected').text() == '') {
+						if($(this).find(':selected').val() == '' && $(this).find(':selected').text() == '') {
 							if(conf.hideOnFocus) {
-								$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:1},(conf.speed)/2);
+								$form.find('label[for='+$(this).attr('id')+']').animate({opacity:1},(conf.speed)/2);
 							}
-							setState($form,jQuery(this),'inactive');
-						} else if (jQuery(this).find(':selected').val() != '' && conf.hideOnBlur) {
-							$form.find('label[for='+jQuery(this).attr('id')+']').animate({opacity:0},conf.speed);
+							setState($form,$(this),'inactive');
+						} else if ($(this).find(':selected').val() != '' && conf.hideOnBlur) {
+							$form.find('label[for='+$(this).attr('id')+']').animate({opacity:0},conf.speed);
 						}
 					}
 				});
@@ -161,11 +176,11 @@
 				
 				$form.find('label')
 					.click(function(e) {
-						$e = $form.find('#'+jQuery(this).attr('for'));
+						$e = $form.find('#'+$(this).attr('for'));
 						if ($e.is(conf.input) && $e.is(filterDate)) {
 							e.preventDefault();
 							$form.find(conf.input).filter(function(){
-								if (jQuery(this).attr('id') == jQuery(e.target).attr('for')) {return true} else {return false}
+								if ($(this).attr('id') == $(e.target).attr('for')) {return true} else {return false}
 							})
 							.focus();
 						}
@@ -174,12 +189,12 @@
 						checkInputState($form,this,1);
 					})
 					
-				var currentHeight = jQuery(window).height();
-				var currentWidth = jQuery(window).width();
+				var currentHeight = $(window).height();
+				var currentWidth = $(window).width();
   
-				jQuery(window).resize(function(){
-					var windowHeight = jQuery(window).height();
-					var windowWidth = jQuery(window).width();
+				$(window).resize(function(){
+					var windowHeight = $(window).height();
+					var windowWidth = $(window).width();
 					
 					// did the window really just resize? (I'm looking at your IE 8-)
 					if (currentHeight == undefined || currentHeight != windowHeight || currentWidth == undefined || currentWidth != windowWidth) {
