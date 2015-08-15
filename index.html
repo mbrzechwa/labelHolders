@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="description" content="InteliDate : Inteligently interpret user date input in a single field">
+	<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="labelHolders.js"></script>
+	<script>
+	
+		$(function() {
+			
+			$('form').labelHolders({
+				scale:		.85
+			});
+			
+		});
+	
+	</script>
+	<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+	<style>
+		input {display:block;margin:1em 0;line-height:1.15em;}
+		pre.prettyprint {padding:20px;}
+		form {margin:20px 0;padding:20px;background:#eeeeee;}
+		label.placeholder {color:#666666;}
+	</style>
+	<title>LabelHolders</title>
+</head>
+
+<body>
+
+	<!-- HEADER -->
+	<div id="header_wrap" class="outer">
+			<header class="inner">
+				<a id="forkme_banner" href="https://github.com/mbrzechwa/labelHolders">View on GitHub</a>
+
+				<h1 id="project_title">LabelHolders</h1>
+				<h2 id="project_tagline">Symantic markup for clean inset labels</h2>
+
+					<section id="downloads">
+						<a class="zip_download_link" href="https://github.com/mbrzechwa/labelHolders/zipball/master">Download this project as a .zip file</a>
+						<a class="tar_download_link" href="https://github.com/mbrzechwa/labelHolders/tarball/master">Download this project as a tar.gz file</a>
+					</section>
+			</header>
+	</div>
+
+	<!-- MAIN CONTENT -->
+	<div id="main_content_wrap" class="outer">
+		<section id="main_content" class="inner">
+			<h2><a id="what-is-intelidate" class="anchor" href="#what-are-labelholders" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are LabelHolders?</h2>
+
+			<p>A common design trend in forms is to use placeholder text in place of labels. This creates a clean looking form, but causes a few issues.
+			Semantically it's a problem for accessability. It's also a problem when users have entered info or a form has been prepopulated there's nothing to identify what the field is for.</p>
+			
+			<p>LabelHolders takes semantically marked up labels and positions them inside their inputs to look like placeholders. The labels can then be moved and resized around the input so they are still visible once users have entered data.</p>
+			
+			<p>LabelHolders will automatically move to the "active" position when actual placeholder text is present as shown in the Phone number field in the demo below.</p>
+			
+			<h2><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h2>
+			<form action="#" method="get">
+				<label for="fname">First Name</label>
+				<input id="fname" type="text"/>
+				<label for="lname">Last Name</label>
+				<input id="lname" type="text"/>
+				<label for="email">Email</label>
+				<input id="email" type="email"/>
+				<label for="phone">Phone Number</label>
+				<input id="phone" type="text" placeholder="(XXX) XXX-XXXX"/>
+			</form>
+			
+			<h2><a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+			
+			<p>coming soon</p>
+		</section>
+	</div>
+
+	<!-- FOOTER  -->
+	<div id="footer_wrap" class="outer">
+		<footer class="inner">
+			<p class="copyright">LabelHolders maintained by <a href="https://github.com/mbrzechwa">mbrzechwa</a></p>
+		</footer>
+	</div>
+
+	
+
+</body>
+</html>

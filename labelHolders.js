@@ -51,33 +51,38 @@
 		$(this).data('labelHolders',conf);
 		
 		function setState(form,input,state,speedOveride) {
-			var label	= form.find('label[for='+input.attr('id')+']'),
-			lineHeight = parseInt(input.css('line-height').replace('px',''),10) || Math.floor(parseInt(input.css('font-size').replace('px','')) * 1.5,10),
-			lineHeight = lineHeight+'px',
-			iheight		= parseInt(input.height(),10),
-			iwidth		= parseInt(input.width(),10),
-			osize			= parseInt(input.css('font-size'),10),
-			nsize			= osize * conf.scale,
-			lheight		= parseInt(label.height(),10),
-			nheight		= lheight * conf.scale,
-			lwidth		= parseInt(label.width(),10),
-			nwidth		= (lwidth * conf.scale)+30,
-			offset		= input.position(),
-			margin		= {top: parseInt(input.css('marginTop'),10)||0, bottom: parseInt(input.css('marginBottom'),10)||0,left: parseInt(input.css('marginLeft'),10)||0,right: parseInt(input.css('marginRight'),10)||0},
-			padding		= {top: parseInt(input.css('padding-top'),10)||0, bottom: parseInt(input.css('padding-bottom'),10)||0,left: parseInt(input.css('padding-left'),10)||0,right: parseInt(input.css('padding-right'),10)||0},
-			border 		= {top: parseInt(input.css('border-top-width'),10)||0, bottom: parseInt(input.css('border-bottom-width'),10)||0, left: parseInt(input.css('border-left-width'),10)||0,right: parseInt(input.css('border-right-width'),10)||0},
-			adjust		= legendAdjust && input.offsetParent().is('fieldset') && input.offsetParent().find('legend').length > 0 ? input.offsetParent().find('legend').outerHeight() : 0,
-			start 		= {top: offset.top + padding.top + margin.top - adjust, left: offset.left + padding.left + margin.left},
-			top				= conf.position.indexOf('top') != -1 ? start.top - nheight - conf.offset.top : conf.position.indexOf('bottom') != -1 ? start.top + padding.bottom + border.bottom + border.top + iheight + conf.offset.top - adjust : start.top + conf.offset.top,
-			left 			= conf.position.indexOf('left') != -1 ? start.left - nwidth - conf.offset.left : conf.position.indexOf('right') != -1 ? start.left + border.right + border.left + padding.right + iwidth + conf.offset.left : conf.align == 'right' ? start.left + conf.offset.left + iwidth - lwidth : start.left + conf.offset.left,
-			speed			= speedOveride ? 0 : conf.speed;
+			var	label			= form.find('label[for='+input.attr('id')+']'),
+					iheight		= parseInt(input.height(),10),
+					iwidth		= parseInt(input.width(),10),
+					osize			= parseInt(input.css('font-size'),10),
+					nsize			= osize * conf.scale,
+					offset		= input.position();
 			
-			label.css({'line-height':lineHeight});
+			if(speedOveride && state == 'active') {
+				label.css({
+					'font-size'		: nsize,
+					'line-height'	: input.css('line-height'),
+					'white-space' : 'nowrap'
+				});
+			}
+			
+			var	lheight		= parseInt(label.height(),10),
+					lwidth		= parseInt(label.width(),10),
+					margin		= {top: parseInt(input.css('marginTop'),10)||0, bottom: parseInt(input.css('marginBottom'),10)||0,left: parseInt(input.css('marginLeft'),10)||0,right: parseInt(input.css('marginRight'),10)||0},
+					padding		= {top: parseInt(input.css('padding-top'),10)||0, bottom: parseInt(input.css('padding-bottom'),10)||0,left: parseInt(input.css('padding-left'),10)||0,right: parseInt(input.css('padding-right'),10)||0},
+					border 		= {top: parseInt(input.css('border-top-width'),10)||0, bottom: parseInt(input.css('border-bottom-width'),10)||0, left: parseInt(input.css('border-left-width'),10)||0,right: parseInt(input.css('border-right-width'),10)||0},
+					adjust		= legendAdjust && input.offsetParent().is('fieldset') && input.offsetParent().find('legend').length > 0 ? input.offsetParent().find('legend').outerHeight() : 0,
+					start 		= {top: offset.top + padding.top + margin.top - adjust, left: offset.left + padding.left + margin.left},
+					top				= conf.position.indexOf('top') != -1 ? start.top - lheight - conf.offset.top : conf.position.indexOf('bottom') != -1 ? start.top + padding.bottom + border.bottom + border.top + iheight + conf.offset.top - adjust : start.top + conf.offset.top,
+					left 			= conf.position.indexOf('left') != -1 ? start.left - lwidth - conf.offset.left : conf.position.indexOf('right') != -1 ? start.left + border.right + border.left + padding.right + iwidth + conf.offset.left : conf.align == 'right' ? start.left + conf.offset.left + iwidth - lwidth : start.left + conf.offset.left,
+					speed			= speedOveride ? 0 : conf.speed;
+			
+			label.css({'line-height'	: input.css('line-height')});
 			
 			if (state == 'active') {
 				label
 					.css({'position':'absolute','text-align':conf.align,'display':'block'})
-					.animate({'top':top,'left':left,'font-size':nsize,'line-height':lineHeight}, speed, function() {
+					.animate({'top':top,'left':left,'font-size':nsize,'line-height'	: input.css('line-height')}, speed, function() {
 						$(this)
 							.addClass(conf.active_class)
 							.removeClass(conf.inactive_class);
@@ -88,7 +93,7 @@
 			} else {
 				label
 					.css({position:'absolute','text-align':input.css('text-align'),display:'block'})
-					.animate({'top':start.top,'left':start.left,'font-size':osize,'line-height':lineHeight}, speed, function() {
+					.animate({'top':start.top,'left':start.left,'font-size':osize,'line-height'	: input.css('line-height')}, speed, function() {
 						$(this)
 							.css('opacity',1)
 							.removeClass(conf.active_class)
