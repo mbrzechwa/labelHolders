@@ -142,7 +142,7 @@
 		}
 		
 		return this.each(function() {
-			$form = $(this);
+			var $form = $(this);
 			$form.find(conf.input).filter(filterDate)
 				.focus(function() {
 					if(!$(this).is('[placeholder]')) {
@@ -185,7 +185,7 @@
 						if ($e.is(conf.input) && $e.is(filterDate)) {
 							e.preventDefault();
 							$form.find(conf.input).filter(function(){
-								if ($(this).attr('id') == $(e.target).attr('for')) {return true} else {return false}
+								if ($(this).attr('id') == $(e.target).closest('label').attr('for')) {return true} else {return false}
 							})
 							.focus();
 						}
