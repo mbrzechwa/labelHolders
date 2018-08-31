@@ -211,6 +211,11 @@
 					
 					currentHeight = windowHeight;
 					currentWidth = windowWidth;
+					
+					//When Android keyboard appears window resize is triggered 
+					//and input loses focus without triggering blur
+					//re-focus on the input field
+  					$(document.activeElement).focus();
 				})
 		});
 		
